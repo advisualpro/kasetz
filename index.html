@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Таврида.Арт · Гайд по ТЗ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15120F;
+    --sand:#F4EEE2;
+    --coral:#FF6A4D;
+    --coral-deep:#E84F31;
+    --sea:#16323E;
+    --foam:#5FC9A0;
+    --signal:#FFC857;
+    --paper:#FFFBF3;
+    --line: rgba(21,18,15,0.12);
+    --font-display:'Oswald', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font-body); background:var(--sand); color:var(--ink); line-height:1.55;}
+  ::selection{background:var(--coral); color:white;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 6vw;}
+
+  .navdots{position:fixed; right:22px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:10px; z-index:50;}
+  .navdots a{width:8px; height:8px; border-radius:50%; background:rgba(21,18,15,0.18); display:block; transition:.25s;}
+  .navdots a.active{background:var(--coral); transform:scale(1.5);}
+  @media (max-width:900px){.navdots{display:none;}}
+
+  section{position:relative; padding:100px 0; border-bottom:1px solid var(--line);}
+  section.tight{padding:70px 0;}
+  .dark{background:var(--sea); color:var(--paper); border-color:rgba(255,255,255,0.08);}
+  .coral-bg{background:var(--coral); color:white; border-color:rgba(255,255,255,0.25);}
+  .paper-bg{background:var(--paper);}
+
+  .eyebrow{font-family:var(--font-mono); text-transform:uppercase; font-size:0.78rem; letter-spacing:0.14em; color:var(--coral-deep); display:flex; align-items:center; gap:10px; margin-bottom:20px;}
+  .eyebrow::before{content:''; width:22px; height:1px; background:currentColor; display:inline-block;}
+  .dark .eyebrow{color:var(--signal);}
+
+  h1,h2,h3{font-family:var(--font-display); text-transform:uppercase; line-height:1; font-weight:600;}
+  h1{font-size:clamp(2.4rem, 5.4vw, 4.4rem);}
+  h2{font-size:clamp(1.9rem, 3.6vw, 2.9rem); margin-bottom:18px;}
+  h3{font-size:1.25rem; margin-bottom:10px;}
+  p.lead{font-size:1.1rem; max-width:680px; color:rgba(21,18,15,0.72); margin-top:16px;}
+  .dark p.lead{color:rgba(255,251,243,0.65);}
+  .coral-bg p.lead{color:rgba(255,255,255,0.9);}
+
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:40px;}
+  .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:40px;}
+  @media (max-width:880px){.grid2,.grid3{grid-template-columns:1fr;}}
+
+  .card{background:var(--paper); border:1px solid var(--line); border-radius:4px; padding:26px;}
+  .dark .card{background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.12);}
+  .card h3{font-size:1.05rem;}
+  .card p{color:rgba(21,18,15,0.65); font-size:0.94rem;}
+  .dark .card p{color:rgba(255,251,243,0.6);}
+
+  .badge-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:28px;}
+  .badge{font-family:var(--font-mono); font-size:0.78rem; padding:8px 16px; border-radius:100px; border:1px solid var(--line); color:rgba(21,18,15,0.7);}
+  .dark .badge{border-color:rgba(255,255,255,0.2); color:rgba(255,251,243,0.7);}
+
+  /* allowed / forbidden themes */
+  .theme-table{margin-top:44px; display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid rgba(255,255,255,0.25); border-radius:6px; overflow:hidden;}
+  @media (max-width:760px){.theme-table{grid-template-columns:1fr;}}
+  .theme-col{padding:30px 32px;}
+  .theme-col.yes{background:rgba(95,201,160,0.14);}
+  .theme-col.no{background:rgba(232,79,49,0.14);}
+  .theme-col h4{font-family:var(--font-mono); text-transform:uppercase; font-size:0.85rem; letter-spacing:0.06em; margin-bottom:16px;}
+  .theme-col.yes h4{color:var(--foam);}
+  .theme-col.no h4{color:#FF9E8C;}
+  .theme-col ul{padding-left:18px; color:rgba(255,255,255,0.85); font-size:0.96rem;}
+  .theme-col li{margin-bottom:9px;}
+
+  /* TZ blocks */
+  .tz-block{display:grid; grid-template-columns:280px 1fr; gap:46px; padding:60px 0; border-top:1px solid var(--line);}
+  .tz-block:first-of-type{border-top:none;}
+  @media (max-width:880px){.tz-block{grid-template-columns:1fr; gap:22px;}}
+  .tz-left .blocknum{font-family:var(--font-display); font-size:3.2rem; color:var(--coral); line-height:1;}
+  .tz-left .blockwhy{font-size:0.92rem; color:rgba(21,18,15,0.62); margin-top:16px; padding-left:16px; border-left:2px solid var(--signal);}
+  .tz-right h3.tz-title{font-size:1.7rem; margin-bottom:16px;}
+
+  .example{background:var(--paper); border:1px solid var(--line); border-radius:4px; padding:24px 26px; margin-top:14px;}
+  .example .tag{font-family:var(--font-mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--coral-deep); margin-bottom:10px; display:block;}
+  .example p{font-size:0.98rem; color:rgba(21,18,15,0.82);}
+  .example p+p{margin-top:12px;}
+  .example b{color:var(--ink);}
+  .example ol, .example ul{padding-left:20px; margin-top:6px;}
+  .example li{margin-bottom:5px; font-size:0.98rem;}
+
+  /* mini illustration icons */
+  .ic{width:18px; height:18px; vertical-align:-3px; margin-right:6px;}
+
+  .slidenum{position:absolute; bottom:32px; right:6vw; font-family:var(--font-display); font-size:1.5rem; opacity:0.18;}
+  .dark .slidenum, .coral-bg .slidenum{opacity:0.35;}
+
+  footer{padding:44px 0; text-align:center; font-family:var(--font-mono); font-size:0.78rem; color:rgba(21,18,15,0.45);}
+</style>
+</head>
+<body>
+
+<nav class="navdots" id="navdots"></nav>
+
+<!-- HERO -->
+<section class="coral-bg" id="s1">
+  <div class="wrap">
+    <div class="eyebrow">Гайд для кейсодержателя · Таврида.Арт</div>
+    <h1>Как составить ТЗ кейса</h1>
+    <p class="lead">Над вашим кейсом 5 дней работает команда из 5 человек, по 4–6 часов в день. Они сделают ровно то, что вы напишете в задании — не больше и не меньше. Этот гайд на живых примерах из разных тем показывает, что писать в каждом блоке и почему это важно.</p>
+    <div class="badge-row">
+      <span class="badge" style="border-color:rgba(255,255,255,0.4); color:white;">1 · Задача</span>
+      <span class="badge" style="border-color:rgba(255,255,255,0.4); color:white;">2 · Контекст</span>
+      <span class="badge" style="border-color:rgba(255,255,255,0.4); color:white;">3 · Результат</span>
+      <span class="badge" style="border-color:rgba(255,255,255,0.4); color:white;">4 · Референсы</span>
+      <span class="badge" style="border-color:rgba(255,255,255,0.4); color:white;">5 · Критерии</span>
+      <span class="badge" style="border-color:rgba(255,255,255,0.4); color:white;">6 · Материалы и масштаб</span>
+    </div>
+  </div>
+  <div class="slidenum">01</div>
+</section>
+
+<!-- ВАЖНОЕ ОГРАНИЧЕНИЕ -->
+<section class="dark" id="s2">
+  <div class="wrap">
+    <div class="eyebrow">Прежде чем писать ТЗ</div>
+    <h2>Что вообще можно попросить</h2>
+    <p class="lead">Вся смена — про практику с нейросетями. Участники работают на платформе «Фиджитал+» (phygital.plus) — это российский инструмент, через него пишут и собирают код, генерируют визуал и видео. Сторонние зарубежные сервисы не используются. Это не команда «по щелчку» — за 5 дней по 4–6 часов реально пересобрать сайт, сделать рабочий прототип, мини-игру или пакет креативов, если задача собрана и не размазана на десять направлений сразу. Уровень и скорость команд отличаются — поэтому в блоке «масштаб» (блок 6) важно закладывать вилку от минимума до амбициозного максимума.</p>
+    <div class="theme-table">
+      <div class="theme-col yes">
+        <h4>✓ Хорошо ложится в формат</h4>
+        <ul>
+          <li>Пересборка или редизайн существующего сайта/лендинга с помощью ИИ-генерации кода</li>
+          <li>Мини-приложение в Telegram (Mini App) — несложная игра или интерактив для геймификации бренда</li>
+          <li>Пакет рекламных/контентных креативов на месяц вперёд, сгенерированных на ИИ (без ведения и публикации)</li>
+          <li>Серия рекламных/имиджевых роликов на ИИ (без живой съёмки)</li>
+          <li>Бот для приёма заявок, FAQ или геймифицированного взаимодействия с брендом</li>
+          <li>Прототип интерфейса приложения, MVP-страница, фирменный стиль на нейросетях</li>
+        </ul>
+      </div>
+      <div class="theme-col no">
+        <h4>✕ Не подойдёт для смены</h4>
+        <ul>
+          <li>Реальная видеосъёмка с актёрами, операторами, локациями</li>
+          <li>Продакшн-система с серьёзной инфраструктурой: высоконагруженный бэкенд, платёжные интеграции, мобильные приложения под публикацию в сторах</li>
+          <li>Мультиагентные системы, кастомное обучение/дообучение моделей</li>
+          <li>Долгие исследовательские задачи без конкретного результата к 17 июля</li>
+          <li>Юридически чувствительные темы (см. блок про цензуру ниже)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slidenum">02</div>
+</section>
+
+<!-- ПОСЛЕ СМЕНЫ -->
+<section class="paper-bg tight" id="s2b">
+  <div class="wrap">
+    <div class="eyebrow">Что дальше</div>
+    <h2>Зачем это командам и зачем — вам</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Для команды участников</h3>
+        <p style="color:rgba(21,18,15,0.7);">Это не учебная задача «в стол» — результат увидит реальный бизнес и оценит на защите. Сильная работа — повод, чтобы кейсодержатель позвал команду или отдельных участников в дальнейшую работу над продуктом: доработка, новый этап, оплачиваемый проект.</p>
+      </div>
+      <div class="card">
+        <h3>Для кейсодержателя</h3>
+        <p style="color:rgba(21,18,15,0.7);">Вы получаете не только готовый артефакт (сайт, видео, дизайн, прототип) для портфолио и запуска, но и возможность подсмотреть, как ребята работают, и захантить тех, кто понравился — для найма или продолжения работы над этим же кейсом.</p>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:28px;">Поэтому в ТЗ стоит закладывать задачу с запасом интереса — не только «что сдать 17 июля», но и направление, в котором продукт можно развивать дальше. Это мотивирует команду выложиться по максимуму.</p>
+  </div>
+  <div class="slidenum">03</div>
+</section>
+
+<!-- ГЛАВНАЯ ОШИБКА -->
+<section id="s3">
+  <div class="wrap">
+    <div class="eyebrow">Анти-тренд</div>
+    <h2>Главная ошибка в ТЗ</h2>
+    <p class="lead">Абстрактные формулировки полностью уничтожают результат работы ИИ-команд на финальной защите.</p>
+    <div class="grid2">
+      <div class="card" style="background:#FBE9E2; border-left:3px solid var(--coral-deep);">
+        <h3>✕ Шаблон кривого ТЗ</h3>
+        <p style="color:rgba(21,18,15,0.75);">«Нам нужен креативный контент с использованием нейросетей, чтобы поднять узнаваемость бренда. Сделайте что-нибудь вирусное, яркое и молодёжное на свой вкус».</p>
+        <p style="margin-top:12px; color:rgba(21,18,15,0.55);"><b style="color:rgba(21,18,15,0.8);">Почему это зафейлится:</b> команда сделает мрачный 3D-киберпанк, а бренду нужен был светлый эко-минимализм. Претензии после финала не принимаются — вы выступаете в роли жюри.</p>
+      </div>
+      <div class="card" style="background:#EAF6F0; border-left:3px solid var(--foam);">
+        <h3>✓ Как это исправить</h3>
+        <p style="color:rgba(21,18,15,0.75);">Разделите задание на 3 осязаемых шага:</p>
+        <ul style="padding-left:18px; margin-top:10px; color:rgba(21,18,15,0.75);">
+          <li style="margin-bottom:8px;"><b>Шаг 1.</b> Чёткий контекст компании и описание целевой аудитории.</li>
+          <li style="margin-bottom:8px;"><b>Шаг 2.</b> Финальный осязаемый формат результата.</li>
+          <li><b>Шаг 3.</b> Конкретные ссылки на визуальные референсы.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slidenum">04</div>
+</section>
+
+<!-- TZ BLOCKS -->
+<section class="paper-bg" id="s4">
+  <div class="wrap">
+    <div class="eyebrow">Структура ТЗ · 6 блоков</div>
+    <h2 style="margin-bottom:0;">Заполняем по порядку</h2>
+
+    <!-- BLOCK 1: video -->
+    <div class="tz-block">
+      <div class="tz-left">
+        <div class="blocknum">01</div>
+        <h3 style="font-size:0.95rem; margin-top:8px;">Задача</h3>
+        <p class="blockwhy">Если задача размыта, команда полдня спорит «что вообще делать» и приносит не то. Опишите конкретно: что нужно сделать, в каком объёме и с какой эмоцией. Простым языком, как объяснили бы коллеге.</p>
+      </div>
+      <div class="tz-right">
+        <h3 class="tz-title">🎬 Пример: видео на ИИ</h3>
+        <div class="example">
+          <span class="tag">Образец заполнения</span>
+          <p>Сгенерировать серию из трёх коротких вертикальных видео (15–20 секунд) для запуска нового вкуса лимонада «Облепиха-Имбирь» — полностью на нейросетях, без живой съёмки. Ролики выходят одновременно в VK Видео и в российских медиаплатформах в первую неделю августа.</p>
+          <p>Каждый ролик самостоятельный, но все три держат единый визуальный язык. Главная эмоция — лето, свежесть, локальный крафт. В кадре обязательно: сам напиток, момент открытия банки, брызги на холодном стекле.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCK 2: marketing -->
+    <div class="tz-block">
+      <div class="tz-left">
+        <div class="blocknum">02</div>
+        <h3 style="font-size:0.95rem; margin-top:8px;">Зачем это вам и для кого</h3>
+        <p class="blockwhy">Команда выкладывается, когда понимает смысл, а не просто «делает по ТЗ». Объясните бизнес-задачу и опишите аудиторию — зная, зачем это вам и кто это увидит, участники сами отсекут неуместные идеи и попадут в тон.</p>
+      </div>
+      <div class="tz-right">
+        <h3 class="tz-title">📣 Пример: маркетинговая упаковка</h3>
+        <div class="example">
+          <span class="tag">Образец заполнения</span>
+          <p><b>Зачем нам это.</b> Выходим на маркетплейсы с новой линейкой — нужна единая визуальная упаковка карточек товара и пара рекламных текстов, чтобы карточка не терялась среди конкурентов.</p>
+          <p><b>Для кого.</b> Покупатели маркетплейсов 25–45 лет, выбирают по фото за 2–3 секунды — карточка должна цеплять с первого взгляда, без долгого чтения.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCK 3: simple dev/bot -->
+    <div class="tz-block">
+      <div class="tz-left">
+        <div class="blocknum">03</div>
+        <h3 style="font-size:0.95rem; margin-top:8px;">Что должно получиться</h3>
+        <p class="blockwhy">Назовите точный результат и формат сдачи. «Сделайте что-нибудь» убивает кейс — команда не понимает, к чему идти. Чёткий список форматов — это ясная цель, которую можно довести до конца за смену.</p>
+      </div>
+      <div class="tz-right">
+        <h3 class="tz-title">💻 Пример: пересборка сайта</h3>
+        <div class="example">
+          <span class="tag">Образец заполнения</span>
+          <p>Пересобрать лендинг продукта на новый дизайн: главная страница с блоками о продукте, ценах и формой заявки. Адаптив под мобильные. Команда собирает результат на платформе «Фиджитал+» — у нас должна остаться рабочая ссылка на сайт.</p>
+          <p>Сдача: ссылка на работающий сайт + исходный код в репозитории. Без бэкенда и личного кабинета — статичная страница с формой, отправляющей заявку на почту.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCK 4: game / smm -->
+    <div class="tz-block">
+      <div class="tz-left">
+        <div class="blocknum">04</div>
+        <h3 style="font-size:0.95rem; margin-top:8px;">Референсы и стиль</h3>
+        <p class="blockwhy">Слова все понимают по-разному, а примеры — точно. Покажите 3–5 референсов и отметьте, что именно нравится: динамика, цвет, юмор, монтаж. Есть брендбук — обязательно приложите.</p>
+      </div>
+      <div class="tz-right">
+        <h3 class="tz-title">🎮 Пример: мини-апп в Telegram + пакет креативов</h3>
+        <div class="example">
+          <span class="tag">Образец заполнения</span>
+          <p><b>Mini App.</b> Мини-приложение в Telegram с маскотом бренда — короткая аркадная механика (кликер или раннер), в конце экран с промокодом. Референсы: 2–3 похожих бренд-механики конкурентов, ссылки прилагаем.</p>
+          <p><b>Креативы.</b> Пакет рекламных креативов на месяц вперёд — 12 изображений и 4 коротких видео, сгенерированных на ИИ, в едином стиле бренда. Без ведения и публикации — только готовые файлы. Брендбук с цветами и шрифтами прилагаем.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCK 5: criteria -->
+    <div class="tz-block">
+      <div class="tz-left">
+        <div class="blocknum">05</div>
+        <h3 style="font-size:0.95rem; margin-top:8px;">Критерии успеха</h3>
+        <p class="blockwhy">Это то, по чему вы будете оценивать результат на финальной защите. Чёткие критерии = честная оценка и понятная команде цель. Перечислите по пунктам, что для вас значит «кейс решён».</p>
+      </div>
+      <div class="tz-right">
+        <h3 class="tz-title">✅ Пример: критерии для сайта</h3>
+        <div class="example">
+          <span class="tag">Образец заполнения</span>
+          <p>Кейс решён, если сайт:</p>
+          <ol>
+            <li>открывается по ссылке и корректно работает на мобильном и десктопе;</li>
+            <li>форма заявки реально отправляет сообщение на почту;</li>
+            <li>визуально совпадает с референсами и фирменным стилем;</li>
+            <li>не требует от нас доработок верстки или текстов;</li>
+            <li>есть исходный код, который мы можем передать своей команде.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCK 6: materials -->
+    <div class="tz-block">
+      <div class="tz-left">
+        <div class="blocknum">06</div>
+        <h3 style="font-size:0.95rem; margin-top:8px;">Материалы и масштаб</h3>
+        <p class="blockwhy">Без ваших материалов команда первый день не работает, а ищет ваш логотип. Границы «минимум — максимум» не дают утонуть в амбициях. Соберите всё заранее.</p>
+      </div>
+      <div class="tz-right">
+        <h3 class="tz-title">📦 Универсальный пример</h3>
+        <div class="example">
+          <span class="tag">Образец заполнения</span>
+          <p><b>Материалы (отдаём в первый день одной папкой).</b> Логотип в векторе, фирменные цвета и шрифты, брендбук, фото продукта, описание характера бренда, примеры тональности текстов.</p>
+          <p><b>Масштаб.</b> Минимум, который нас устроит — один готовый результат, закрывающий задачу. Оптимум — расширенный вариант (например, 3 ролика вместо 1, или приложение + инструкция + примеры сценариев). Максимум — если команда сильная и успевает больше, чем заложено, опишите, что для вас было бы приятным сюрпризом. Вилка «минимум — максимум» нужна именно потому, что уровень команд разный: кто-то закроет по минимуму, а кто-то предложит решение интереснее, чем вы ожидали.</p>
+          <p style="color:rgba(21,18,15,0.55); font-style:italic;">Если время поджимает: лучше один отличный результат, чем три сырых.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="slidenum">05</div>
+</section>
+
+<!-- БЕЗОПАСНОСТЬ -->
+<section class="dark tight" id="s5">
+  <div class="wrap">
+    <div class="eyebrow">Безопасность и цензура</div>
+    <h2>Юридическая чистота</h2>
+    <p class="lead">На площадках арт-кластера «Таврида» действует строгий контроль контента. Нарушение правил ведёт к автоматическому снятию кейса с программы.</p>
+    <div class="grid2">
+      <div class="card">
+        <h3 style="color:var(--coral);">✕ Жёстко запрещено</h3>
+        <ul style="padding-left:18px; color:rgba(255,251,243,0.75);">
+          <li style="margin-bottom:10px;"><b style="color:var(--paper);">Иноагенты:</b> любые упоминания, лица, музыка или цитаты лиц и организаций, признанных Минюстом РФ иноагентами.</li>
+          <li><b style="color:var(--paper);">Запрещённые сервисы:</b> логотипы и упоминания заблокированных в РФ соцсетей.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--foam);">✓ Как писать правильно</h3>
+        <ul style="padding-left:18px; color:rgba(255,251,243,0.75);">
+          <li style="margin-bottom:10px;">Используйте общие формулировки для ТЗ.</li>
+          <li>Вместо «сделать Reels» пишите: «серия вертикальных видеороликов для VK Клипов / YouTube Shorts / российских медиаплатформ».</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="slidenum">06</div>
+</section>
+
+<footer>Таврида.Арт · Гайд по ТЗ · 2026</footer>
+
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const nav = document.getElementById('navdots');
+  sections.forEach(s=>{
+    const a = document.createElement('a');
+    a.href = '#'+s.id;
+    nav.appendChild(a);
+  });
+  const dots = nav.querySelectorAll('a');
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const idx = [...sections].findIndex(s=>s.id===e.target.id);
+        dots.forEach(d=>d.classList.remove('active'));
+        dots[idx].classList.add('active');
+      }
+    });
+  }, {threshold:0.5});
+  sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
